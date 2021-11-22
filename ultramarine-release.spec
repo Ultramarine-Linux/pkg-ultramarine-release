@@ -14,7 +14,7 @@
 Summary:	Ultramarine Linux release files
 Name:     ultramarine-release
 Version:	%{dist_version}
-Release:	0.4
+Release:	0.5
 License:	MIT
 Source0:	LICENSE
 Source1:	README.developers
