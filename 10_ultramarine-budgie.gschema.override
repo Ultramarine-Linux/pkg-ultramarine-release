@@ -1,5 +1,5 @@
 [org.gnome.desktop.background]
-picture-uri='file:///usr/share/backgrounds/ultramarine-linux/default/blue-ocean.jpg'
+picture-uri='file:///usr/share/backgrounds/ultramarine-linux/default/default.jpg'
 
 [org.gnome.mutter]
 edge-tiling = true
@@ -9,7 +9,7 @@ attach-modal-dialogs = true
 button-layout = 'appmenu:minimize,maximize,close'
 
 [org.gnome.desktop.screensaver]
-picture-uri='file:///usr/share/backgrounds/ultramarine-linux/default/blue-ocean.jpg'
+picture-uri='file:///usr/share/backgrounds/ultramarine-linux/default/default.jpg'
 
 [org.gnome.gedit.preferences.editor]
 scheme='textmate'
