@@ -14,7 +14,7 @@
 Summary:	Ultramarine Linux release files
 Name:     ultramarine-release
 Version:	%{dist_version}
-Release:	0.5
+Release:	0.6
 License:	MIT
 Source0:	LICENSE
 Source1:	README.developers
@@ -26,11 +26,9 @@ Source7:	90-default.preset
 Source8:	99-default-disable.preset
 Source9:	90-default-user.preset
 Source10: 10_ultramarine-default-theme.gschema.override
-Source11: 10_ultramarine-budgie.gschema.override
 Source12: cyber-cutefish-theme.conf
 Source13: 60-ultramarine-presets.conf
 Source14: lightdm-gtk-greeter.conf
-Source15: ultramarine-marina.layout
 
 BuildArch: noarch
 
@@ -257,14 +255,11 @@ touch %{buildroot}%{_sysconfdir}/ultramarine-release-basic
 # Set up gschemas
 mkdir -p %{buildroot}%{_datadir}/glib-2.0/schemas/
 install %{SOURCE10} %{buildroot}%{_datadir}/glib-2.0/schemas/
-install %{SOURCE11} %{buildroot}%{_datadir}/glib-2.0/schemas/
 
 #Budgie config
 mkdir -p %{buildroot}%{_sysconfdir}/lightdm/lightdm.conf.d/
 install %{SOURCE13} %{buildroot}%{_sysconfdir}/lightdm/lightdm.conf.d/
 install %{SOURCE14} %{buildroot}%{_sysconfdir}/lightdm/lightdm.conf.d/50-ultramarine-lightdm-gtk-greeter.conf
-mkdir -p %{buildroot}%{_datadir}/budgie-desktop/layouts/
-install %{SOURCE15} %{buildroot}%{_datadir}/budgie-desktop/layouts/
 
 #set up Cyber and Cutefish config
 mkdir -p %{buildroot}%{_sysconfdir}/skel/.config/cutefishos/
