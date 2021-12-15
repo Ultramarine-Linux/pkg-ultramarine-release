@@ -13,8 +13,8 @@
 
 Summary:	Ultramarine Linux release files
 Name:     ultramarine-release
-Version:	%{dist_version}
-Release:	0.6
+Version:	35
+Release:	3
 License:	MIT
 Source0:	LICENSE
 Source1:	README.developers
@@ -26,7 +26,6 @@ Source7:	90-default.preset
 Source8:	99-default-disable.preset
 Source9:	90-default-user.preset
 Source10: 10_ultramarine-default-theme.gschema.override
-Source12: cyber-cutefish-theme.conf
 Source13: 60-ultramarine-presets.conf
 Source14: lightdm-gtk-greeter.conf
 
@@ -40,10 +39,11 @@ Provides: ultramarine-release = %{version}-%{release}
 # of the generic-release-$VARIANT subpackages to ensure that only one
 # may be installed on the system at a time.
 Conflicts: system-release
+Conflicts: generic-release
 Provides: system-release
 Provides: system-release(%{version})
-Conflicts:	fedora-release
-Conflicts:	fedora-release-identity
+Conflicts:	ultramarine-release
+Conflicts:	ultramarine-release-identity
 
 %description
 Generic release files such as yum configs and various /etc/ files that
@@ -62,8 +62,10 @@ Obsoletes:  generic-release < 30-0.1
 
 Obsoletes:  convert-to-edition < 30-0.7
 Requires:   ultramarine-repos(%{version}) = %{version}
+Requires:   ultramarine-release(releasever) = %{releasever}
 
 Conflicts: fedora-release-common
+Conflicts: generic-release-common
 
 %description common
 Release files common to all Editions and Spins
@@ -73,7 +75,7 @@ Release files common to all Editions and Spins
 Summary:	Release Notes
 License:	Open Publication
 Provides:	system-release-notes = %{version}-%{release}
-Conflicts:	fedora-release-notes
+Conflicts:	ultramarine-release-notes
 
 %description notes
 Release files for Ultramarine Linux.
@@ -82,13 +84,14 @@ Release files for Ultramarine Linux.
 Summary:        Base package for a standard Ultrmarine system
 
 RemovePathPostfixes: .basic
-Provides:       fedora-release-variant = %{version}-%{release}
+Provides:       ultramarine-release-variant = %{version}-%{release}
 Provides:       base-module(platform:f%{version})
+Provides:       system-release
 Requires:       ultramarine-release-common = %{version}-%{release}
 Provides:       generic-release-variant = %{version}-%{release}
-# fedora-release-common Requires: fedora-release-identity, so at least one
+# ultramarine-release-common Requires: ultramarine-release-identity, so at least one
 # package must provide it. This Recommends: pulls in
-# fedora-release-identity-cinnamon if nothing else is already doing so.
+# ultramarine-release-identity-cinnamon if nothing else is already doing so.
 Recommends:     ultramarine-release-identity-basic
 %description basic
 %{summary}
@@ -114,13 +117,15 @@ itself as a particular Edition or Spin.
 Summary:        Base package for Ultramarine Flagship-specific default configurations
 
 RemovePathPostfixes: .flagship
-Provides:       fedora-release-variant = %{version}-%{release}
+Provides:       ultramarine-release-variant = %{version}-%{release}
 Provides:       base-module(platform:f%{version})
+Provides:       system-release
+Provides:       system-release-product
 Requires:       ultramarine-release-common = %{version}-%{release}
 Provides:       generic-release-variant = %{version}-%{release}
-# fedora-release-common Requires: fedora-release-identity, so at least one
+# ultramarine-release-common Requires: ultramarine-release-identity, so at least one
 # package must provide it. This Recommends: pulls in
-# fedora-release-identity-cinnamon if nothing else is already doing so.
+# ultramarine-release-identity-cinnamon if nothing else is already doing so.
 Recommends:     ultramarine-release-identity-flagship
 %description flagship
 Provides a base package for Ultramarine Flagship configurations.
@@ -139,38 +144,20 @@ Provides: generic-release-identity = %{version}-%{release}
 %description identity-flagship
 Provides the necessary files for a Ultramarine Flagship installation.
 
-#Cyber Desktop
-
-%package cyber
-Summary:        Base package for Fedora Cyber-specific default configurations
-
-RemovePathPostfixes: .cyber
-Provides:       fedora-release-variant = %{version}-%{release}
-Provides:       base-module(platform:f%{version})
-Requires:       ultramarine-release-common = %{version}-%{release}
-Provides:       generic-release-variant = %{version}-%{release}
-# fedora-release-common Requires: fedora-release-identity, so at least one
-# package must provide it. This Recommends: pulls in
-# fedora-release-identity-cinnamon if nothing else is already doing so.
-Recommends:     ultramarine-release-identity-basic
-
-%description cyber
-Provides a base package for Ultramarine Cyber configurations.
-
-
 # Cutefish Desktop
 
 %package cutefish
 Summary:        Base package for Fedora Cutefish-specific default configurations
 
 RemovePathPostfixes: .cutefish
-Provides:       fedora-release-variant = %{version}-%{release}
+Provides:       ultramarine-release-variant = %{version}-%{release}
 Provides:       base-module(platform:f%{version})
 Requires:       ultramarine-release-common = %{version}-%{release}
 Provides:       generic-release-variant = %{version}-%{release}
-# fedora-release-common Requires: fedora-release-identity, so at least one
+Provides:       system-release
+# ultramarine-release-common Requires: ultramarine-release-identity, so at least one
 # package must provide it. This Recommends: pulls in
-# fedora-release-identity-cinnamon if nothing else is already doing so.
+# ultramarine-release-identity-cinnamon if nothing else is already doing so.
 Recommends:     ultramarine-release-identity-basic
 
 %description cutefish
@@ -182,15 +169,15 @@ Provides a base package for Ultramarine Cutefish configurations.
 
 %install
 install -d %{buildroot}%{_prefix}/lib
-echo "Ultramarine Linux release %{version} (%{release_name})" > %{buildroot}%{_prefix}/lib/fedora-release
+echo "Ultramarine Linux release %{version} (%{release_name})" > %{buildroot}%{_prefix}/lib/ultramarine-release
 echo "cpe:/o:ultramarine:um:%{version}" > %{buildroot}%{_prefix}/lib/system-release-cpe
 
 # Symlink the -release files
 install -d %{buildroot}%{_sysconfdir}
-ln -s ../usr/lib/fedora-release %{buildroot}%{_sysconfdir}/fedora-release
+ln -s ../usr/lib/ultramarine-release %{buildroot}%{_sysconfdir}/ultramarine-release
 ln -s ../usr/lib/system-release-cpe %{buildroot}%{_sysconfdir}/system-release-cpe
-ln -s fedora-release %{buildroot}%{_sysconfdir}/redhat-release
-ln -s fedora-release %{buildroot}%{_sysconfdir}/system-release
+ln -s ultramarine-release %{buildroot}%{_sysconfdir}/redhat-release
+ln -s ultramarine-release %{buildroot}%{_sysconfdir}/system-release
 
 # Create the common os-release file
 install -d $RPM_BUILD_ROOT/usr/lib/os.release.d/
@@ -203,7 +190,7 @@ PLATFORM_ID="platform:um%{fedora}"
 VERSION_ID=%{dist_version}
 PRETTY_NAME="Ultramarine Linux %{fedora} (%{release_name})"
 ANSI_COLOR="0;34"
-LOGO=ultramarine-logo
+LOGO=fedora-logo-icon
 CPE_NAME="cpe:/o:ultramarine:um:%{dist_version}"
 HOME_URL="http://ultramarine-linux.org"
 SUPPORT_URL="https://discord.com/invite/bUuQasHdrF"
@@ -216,9 +203,9 @@ PRIVACY_POLICY_URL="https://youtu.be/dQw4w9WgXcQ"
 EOF
 
 # Create custom Anaconda config
-mkdir -p %{buildroot}%{_sysconfdir}/anaconda/product.d/
-touch %{buildroot}%{_sysconfdir}/anaconda/product.d/ultramarine.conf
-cat << EOF >>%{buildroot}%{_sysconfdir}/anaconda/product.d/ultramarine.conf
+mkdir -p %{buildroot}%{_sysconfdir}/anaconda/profile.d/
+touch %{buildroot}%{_sysconfdir}/anaconda/profile.d/ultramarine.conf
+cat << EOF >>%{buildroot}%{_sysconfdir}/anaconda/profile.d/ultramarine.conf
 # Anaconda configuration file for Ultramarine Linux
 [Anaconda]
 addons_enabled = True
@@ -230,27 +217,55 @@ kickstart_modules =
     org.fedoraproject.Anaconda.Modules.Users
     org.fedoraproject.Anaconda.Modules.Payloads
     org.fedoraproject.Anaconda.Modules.Storage
-
-[Product]
-product_name = Ultramarine Linux
+    org.fedoraproject.Anaconda.Modules.Services
 
 
-[Base Product]
-product_name = Fedora
+[Profile]
+# Define the profile.
+profile_id = ultramarine
+
+[Profile Detection]
+# Match os-release values.
+os_id = ultramarine
+
+[Network]
+default_on_boot = FIRST_WIRED_WITH_LINK
 
 [Bootloader]
-menu_auto_hide = True
+efi_dir = fedora
 
+[Storage]
+default_scheme = BTRFS
+btrfs_compression = zstd:1
 
 [User Interface]
+default_help_pages =
+    FedoraPlaceholder.txt
+    FedoraPlaceholder.html
+    FedoraPlaceholderWithLinks.html
+
 custom_stylesheet = /usr/share/anaconda/pixmaps/ultramarine.css
 hidden_spokes =
     PasswordSpoke
 
+
+[Payload]
+default_source = CLOSEST_MIRROR
+
+default_rpm_gpg_keys =
+    /etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch
+
+updates_repositories =
+    updates
+    updates-modular
+    ultramarine
+
+
 EOF
 
 #basic placeholder
-touch %{buildroot}%{_sysconfdir}/ultramarine-release-basic
+mkdir -p %{buildroot}%{_prefix}/lib/
+cp -pv %{buildroot}%{_prefix}/lib/os-release %{buildroot}%{_prefix}/lib/os-release.basic
 
 # Set up gschemas
 mkdir -p %{buildroot}%{_datadir}/glib-2.0/schemas/
@@ -261,11 +276,9 @@ mkdir -p %{buildroot}%{_sysconfdir}/lightdm/lightdm.conf.d/
 install %{SOURCE13} %{buildroot}%{_sysconfdir}/lightdm/lightdm.conf.d/
 install %{SOURCE14} %{buildroot}%{_sysconfdir}/lightdm/lightdm.conf.d/50-ultramarine-lightdm-gtk-greeter.conf
 
-#set up Cyber and Cutefish config
+#set up Cutefish config
 mkdir -p %{buildroot}%{_sysconfdir}/skel/.config/cutefishos/
-mkdir -p %{buildroot}%{_sysconfdir}/skel/.config/cyberos/
 install %{SOURCE12} %{buildroot}%{_sysconfdir}/skel/.config/cutefishos/theme.conf
-install %{SOURCE12} %{buildroot}%{_sysconfdir}/skel/.config/cyberos/theme.conf
 
 # Create the common /etc/issue
 echo "\S" > %{buildroot}%{_prefix}/lib/issue
@@ -315,12 +328,12 @@ install -Dm0644 %{SOURCE9} -t $RPM_BUILD_ROOT%{_prefix}/lib/systemd/user-preset/
 
 
 %files common
-%{_sysconfdir}/anaconda/product.d/ultramarine.conf
+%{_sysconfdir}/anaconda/profile.d/ultramarine.conf
 %license licenses/LICENSE licenses/README.license
-%{_prefix}/lib/fedora-release
+%{_prefix}/lib/ultramarine-release
 %{_prefix}/lib/system-release-cpe
 %{_sysconfdir}/os-release
-%{_sysconfdir}/fedora-release
+%{_sysconfdir}/ultramarine-release
 %{_sysconfdir}/redhat-release
 %{_sysconfdir}/system-release
 %{_sysconfdir}/system-release-cpe
@@ -345,7 +358,7 @@ install -Dm0644 %{SOURCE9} -t $RPM_BUILD_ROOT%{_prefix}/lib/systemd/user-preset/
 %doc readme/README.Ultramarine-Release-Notes
 
 %files basic
-%{_sysconfdir}/ultramarine-release-basic
+%{_prefix}/lib/os-release.basic
 
 %files identity-basic
 %{_datadir}/glib-2.0/schemas/10_ultramarine-default-theme.gschema.override
@@ -353,217 +366,9 @@ install -Dm0644 %{SOURCE9} -t $RPM_BUILD_ROOT%{_prefix}/lib/systemd/user-preset/
 %files flagship
 %{_sysconfdir}/lightdm/lightdm.conf.d/60-ultramarine-presets.conf
 %{_sysconfdir}/lightdm/lightdm.conf.d/50-ultramarine-lightdm-gtk-greeter.conf
-%{_datadir}/glib-2.0/schemas/10_ultramarine-budgie.gschema.override
-
-%files identity-flagship
-%{_datadir}/budgie-desktop/layouts/ultramarine-marina.layout
-
-%files cyber
-%{_sysconfdir}/skel/.config/cyberos/theme.conf
 
 %files cutefish
 %{_sysconfdir}/skel/.config/cutefishos/theme.conf
 
 %changelog
-* Tue Nov 16 2021 Cappy Ishihara <cappy@cappuchino.xyz> 35-0.3
-- new package built with tito
-
-* Sat Nov 13 2021 korewaChino <cappy@cappuchino.xyz> - %{dist_version}-0.3
-- Forked for Ultramarine release
-
-* Tue Jul  6 2021 Tom Callaway <spot@fedoraproject.org> - 35-0.3
-- handle new fedora-release-identity model
-
-* Wed Apr 28 2021 Stephen Gallagher <sgallagh@redhat.com> - 35-0.2
-- Stop providing "redhat-release"
-
-* Wed Feb 10 2021 Tom Callaway <spot@fedoraproject.org> - 35-0.1
-- bump to 35 for rawhide
-
-* Mon Aug 24 2020 Tom Callaway <spot@fedoraproject.org> - 34-0.1
-- bump to 34 for rawhide
-
-* Fri May  8 2020 Tom Callaway <spot@fedoraproject.org> - 33-0.1
-- bump to 33 for rawhide
-
-* Sat Nov  9 2019 Neal Gompa <ngompa13@gmail.com> - 32-0.1
-- Bump to 32 for Rawhide
-
-* Mon Nov  4 2019 Tom Callaway <spot@fedoraproject.org> - 31-2
-- 31
-
-* Thu Feb  7 2019 Tom Callaway <spot@fedoraproject.org> - 30-0.3
-- sync presets from fedora-release
-
-* Fri Dec 14 2018 Tom Callaway <spot@fedoraproject.org> - 30-0.2
-- include logo=
-
-* Mon Nov 05 2018 Stephen Gallagher <sgallagh@redhat.com> - 30-0.1
-- Update to 30
-- Drop variants from generic-release
-- Rework significantly to be more like fedora-release
-- Sync systemd presets from fedora-release
-
-* Mon Jul 09 2018 Adam Williamson <awilliam@redhat.com> - 29-0.2
-- Server: don't require rolekit (not installable, soon to be retired)
-
-* Mon Apr 16 2018 Tom Callaway <spot@fedoraproject.org> 29-0.1
-- add ID_LIKE=fedora to os-release
-- update to 29
-
-* Wed Nov 15 2017 Tom Callaway <spot@fedoraproject.org> 28-0.3
-- rework significantly to match fedora-release
-
-* Mon Sep 25 2017 Matthew Miller <mattdm@fedoraproject.org> 28-0.2
-- use dist-tag -- and define it if previously undefined
-
-* Wed Aug 23 2017 Mohan Boddu <mboddu@redhat.com> 28-0.1
-- Rawhide is now 28
-
-* Fri Mar  3 2017 Tom Callaway <spot@fedoraproject.org> 27-0.1
-- Rawhide is now 27
-
-* Thu Aug 04 2016 Bruno Wolff III <bruno@wolff.to> - 26-0.1
-- Rawhide is now 26
-
-* Sat Mar 05 2016 Bruno Wolff III <bruno@wolff.to> - 25-0.1
-- Rawhide is now 25
-
-* Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 24-0.4
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
-
-* Tue Jan 19 2016 Tom Callaway <spot@fedoraproject.org> - 24-0.3
-- spec file cleanups
-
-* Sat Aug 22 2015 Bruno Wolff III <bruno@wolff.to> - 24-0.2
-- Fix typo in obsoletes
-
-* Wed Jul 15 2015 Bruno Wolff III <bruno@wolff.to> - 24-0.1
-- Rawhide is now f24
-
-* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 23-0.6
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
-
-* Thu Jun 11 2015 Dennis Gilmore <dennis@ausil.us> - 23-0.5
-- add system preset files
-- drop product sub-packages
-
-* Sat Feb 14 2015 Bruno Wolff III <bruno@wolff.to> - 23-0.4
-- Fix up change log
-
-* Sat Feb 14 2015 Bruno Wolff III <bruno@wolff.to> - 23-0.3
-- Rawhide is now 23
-
-* Tue Oct 21 2014 Tom Callaway <spot@fedoraproject.org> - 22-0.3
-- add versioned provide for system-release(VERSION)
-
-* Tue Oct 21 2014 Tom Callaway <spot@fedoraproject.org> - 22-0.2
-- add productization (it is the foooooture)
-
-* Thu Aug 07 2014 Dennis Gilmore <dennis@ausil.us> - 22-0.1
-- Require fedora-repos and no longer ship repo files
-
-* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 21-5
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
-
-* Mon May 12 2014 Tom Callaway <spot@fedoraproject.org> - 21-4
-- license changes and clarification doc
-
-* Sun Mar 09 2014 Bruno Wolff III <bruno@wolff.to> - 21-3
-- Install dist macro into the correct directory
-
-* Sun Jan 05 2014 Bruno Wolff III <bruno@wolff.to> - 21-2
-- Work around incorrect prefix in the upstream tarball
-
-* Sun Jan 05 2014 Bruno Wolff III <bruno@wolff.to> - 21-1
-- Bump version to match current rawhide
-
-* Sat Dec 21 2013 Bruno Wolff III <bruno@wolff.to> - 21-0.3
-- Update version to 21 (which should have happened when f20 was branched)
-- Changed to work with recent yum change (bug 1040607)
-
-* Mon Dec  9 2013 Tom Callaway <spot@fedoraproject.org> - 20-1
-- final release (disable rawhide dep)
-
-* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 20-0.2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
-
-* Wed Jun 26 2013 Tom Callaway <spot@fedoraproject.org> - 20-0.1
-- sync
-
-* Wed Jun 26 2013 Tom Callaway <spot@fedoraproject.org> - 19-2
-- sync to release
-
-* Mon Mar 11 2013 Ralf CorsÃ©pius <corsepiu@fedoraproject.org> - 19-0.3
-- Remove %%config from %%{_sysconfdir}/rpm/macros.*
-  (https://fedorahosted.org/fpc/ticket/259).
-
-* Wed Feb 13 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 19-0.2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
-
-* Fri Oct 19 2012 Tom Callaway <spot@fedoraproject.org> - 19-0.1
-- sync to 19-0.1
-
-* Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 18-0.3
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
-
-* Fri Feb 10 2012 Tom Callaway <spot@fedoraproject.org> - 18-0.2
-- sync with fedora-release model
-
-* Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 17-0.3
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
-
-* Fri Oct 28 2011 Tom Callaway <spot@fedoraproject.org> - 17-0.2
-- initial 17
-
-* Fri Jul 22 2011 Tom Callaway <spot@fedoraproject.org> - 16-0.2
-- require -rawhide subpackage if we're built for rawhide
-
-* Fri May 13 2011 Tom Callaway <spot@fedoraproject.org> - 16-0.1
-- initial 16
-
-* Fri May 13 2011 Tom Callaway <spot@fedoraproject.org> - 15-1
-- sync to f15 final
-
-* Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 15-0.4
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
-
-* Wed Oct 20 2010 Tom "spot" Callaway <tcallawa@redhat.com> - 15-0.3
-- sync to rawhide
-
-* Wed Feb 24 2010 Tom "spot" Callaway <tcallawa@redhat.com> - 14-0.2
-- fix broken requires
-
-* Wed Feb 17 2010 Tom "spot" Callaway <tcallawa@redhat.com> - 14-0.1
-- update to sync with fedora-release
-
-* Mon Nov 16 2009 Tom "spot" Callaway <tcallawa@redhat.com> - 12-1
-- Update for F12 final
-
-* Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 11.90-2
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
-
-* Wed May 20 2009 Tom "spot" Callaway <tcallawa@redhat.com> - 11.90-1
-- Build for F12 collection
-
-* Wed May 20 2009 Tom "spot" Callaway <tcallawa@redhat.com> - 11-1
-- resync with fedora-release package
-
-* Tue Feb 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 10.90-3
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
-
-* Fri Jan 30 2009 Tom "spot" Callaway <tcallawa@redhat.com> 10.90-2
-- drop Requires: system-release-notes
-
-* Thu Nov 20 2008 Tom "spot" Callaway <tcallawa@redhat.com> 10.90-1
-- 10.90
-
-* Thu Nov 20 2008 Tom "spot" Callaway <tcallawa@redhat.com> 10-1
-- Bump to 10, update repos
-
-* Mon Sep 22 2008 Tom "spot" Callaway <tcallawa@redhat.com> 9.91-2
-- add Conflicts
-- further sanitize descriptions
-
-* Mon Sep 22 2008 Tom "spot" Callaway <tcallawa@redhat.com> 9.91-1
-- initial package for generic-release and Ultramarine-Release-Notes
+%autochangelog
