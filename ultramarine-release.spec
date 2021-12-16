@@ -14,7 +14,7 @@
 Summary:	Ultramarine Linux release files
 Name:     ultramarine-release
 Version:	35
-Release:	3
+Release:	4.1
 License:	MIT
 Source0:	LICENSE
 Source1:	README.developers
@@ -26,6 +26,7 @@ Source7:	90-default.preset
 Source8:	99-default-disable.preset
 Source9:	90-default-user.preset
 Source10: 10_ultramarine-default-theme.gschema.override
+Source12: cyber-cutefish-theme.conf
 Source13: 60-ultramarine-presets.conf
 Source14: lightdm-gtk-greeter.conf
 
@@ -62,7 +63,7 @@ Obsoletes:  generic-release < 30-0.1
 
 Obsoletes:  convert-to-edition < 30-0.7
 Requires:   ultramarine-repos(%{version}) = %{version}
-Requires:   ultramarine-release(releasever) = %{releasever}
+Requires:   ultramarine-release = %{version}-%{release}
 
 Conflicts: fedora-release-common
 Conflicts: generic-release-common
@@ -85,8 +86,8 @@ Summary:        Base package for a standard Ultrmarine system
 
 RemovePathPostfixes: .basic
 Provides:       ultramarine-release-variant = %{version}-%{release}
+Provides:       system-release-variant = %{version}-%{release}
 Provides:       base-module(platform:f%{version})
-Provides:       system-release
 Requires:       ultramarine-release-common = %{version}-%{release}
 Provides:       generic-release-variant = %{version}-%{release}
 # ultramarine-release-common Requires: ultramarine-release-identity, so at least one
@@ -119,10 +120,10 @@ Summary:        Base package for Ultramarine Flagship-specific default configura
 RemovePathPostfixes: .flagship
 Provides:       ultramarine-release-variant = %{version}-%{release}
 Provides:       base-module(platform:f%{version})
-Provides:       system-release
 Provides:       system-release-product
 Requires:       ultramarine-release-common = %{version}-%{release}
 Provides:       generic-release-variant = %{version}-%{release}
+Provides:       system-release-variant = %{version}-%{release}
 # ultramarine-release-common Requires: ultramarine-release-identity, so at least one
 # package must provide it. This Recommends: pulls in
 # ultramarine-release-identity-cinnamon if nothing else is already doing so.
@@ -154,7 +155,7 @@ Provides:       ultramarine-release-variant = %{version}-%{release}
 Provides:       base-module(platform:f%{version})
 Requires:       ultramarine-release-common = %{version}-%{release}
 Provides:       generic-release-variant = %{version}-%{release}
-Provides:       system-release
+Provides:       system-release-variant = %{version}-%{release}
 # ultramarine-release-common Requires: ultramarine-release-identity, so at least one
 # package must provide it. This Recommends: pulls in
 # ultramarine-release-identity-cinnamon if nothing else is already doing so.
@@ -184,11 +185,12 @@ install -d $RPM_BUILD_ROOT/usr/lib/os.release.d/
 cat << EOF >>%{buildroot}%{_prefix}/lib/os-release
 NAME="Ultramarine Linux"
 ID=ultramarine
-VERSION_CODENAME=%{release_name}
+VERSION="22.04 Rhode Island"
+VERSION_CODENAME=rhode
 ID_LIKE=fedora
 PLATFORM_ID="platform:um%{fedora}"
 VERSION_ID=%{dist_version}
-PRETTY_NAME="Ultramarine Linux %{fedora} (%{release_name})"
+PRETTY_NAME="Ultramarine Linux 22.04 Rhode Island (Based on Fedora %{fedora})"
 ANSI_COLOR="0;34"
 LOGO=fedora-logo-icon
 CPE_NAME="cpe:/o:ultramarine:um:%{dist_version}"
@@ -200,6 +202,15 @@ REDHAT_BUGZILLA_PRODUCT_VERSION=%{fedora}
 REDHAT_SUPPORT_PRODUCT="Fedora Linux"
 REDHAT_SUPPORT_PRODUCT_VERSION=%{fedora}
 PRIVACY_POLICY_URL="https://youtu.be/dQw4w9WgXcQ"
+EOF
+
+# provide upstream-release files for debian based apps
+install -d $RPM_BUILD_ROOT/etc/upstream-release
+cat << EOF >>$RPM_BUILD_ROOT/etc/upstream-release/lsb-release
+ID=Fedora
+VERSION_ID=35
+VERSION_CODENAME="Thirty Five"
+PRETTY_NAME="Fedora Linux 35"
 EOF
 
 # Create custom Anaconda config
@@ -333,6 +344,7 @@ install -Dm0644 %{SOURCE9} -t $RPM_BUILD_ROOT%{_prefix}/lib/systemd/user-preset/
 %{_prefix}/lib/ultramarine-release
 %{_prefix}/lib/system-release-cpe
 %{_sysconfdir}/os-release
+%{_sysconfdir}/upstream-release/
 %{_sysconfdir}/ultramarine-release
 %{_sysconfdir}/redhat-release
 %{_sysconfdir}/system-release
