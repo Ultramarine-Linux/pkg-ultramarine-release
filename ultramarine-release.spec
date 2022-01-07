@@ -14,7 +14,7 @@
 Summary:	Ultramarine Linux release files
 Name:     ultramarine-release
 Version:	35
-Release:	4.1
+Release:	4.2
 License:	MIT
 Source0:	LICENSE
 Source1:	README.developers
@@ -315,7 +315,7 @@ cat >> $RPM_BUILD_ROOT%{_rpmconfigdir}/macros.d/macros.dist << EOF
 
 %%fedora                %{dist_version}
 %%dist                %%{?distprefix}.um%{dist_version}%%{?with_bootstrap:~bootstrap}
-%%ultramarine           %{dist_version}                1
+%%ultramarine           %{dist_version}
 EOF
 
 # Install readme
