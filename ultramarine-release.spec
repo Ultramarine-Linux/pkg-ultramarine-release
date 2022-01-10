@@ -4,17 +4,20 @@
 %elif %{fedora} == 35
 %global release_name phingkan
 
-%elif %{fedora} > 35
+%elif %{fedora} == 36
+%global release_name rhode
+
+%elif %{fedora} > 36
 %global is_rawhide 1
-%global release_name aozora
+%global release_name gunjou
 %endif
 
 %global dist_version %{fedora}
 
 Summary:	Ultramarine Linux release files
 Name:     ultramarine-release
-Version:	35
-Release:	4.2
+Version:	36
+Release:	1
 License:	MIT
 Source0:	LICENSE
 Source1:	README.developers
@@ -47,10 +50,7 @@ Conflicts:	ultramarine-release
 Conflicts:	ultramarine-release-identity
 
 %description
-Generic release files such as yum configs and various /etc/ files that
-define the release. This package explicitly is a replacement for the 
-trademarked release package, if you are unable for any reason to abide by the 
-trademark restrictions on that release package.
+Release files for Ultramarine Linux.
 
 
 %package common
@@ -208,9 +208,9 @@ EOF
 install -d $RPM_BUILD_ROOT/etc/upstream-release
 cat << EOF >>$RPM_BUILD_ROOT/etc/upstream-release/lsb-release
 ID=Fedora
-VERSION_ID=35
-VERSION_CODENAME="Thirty Five"
-PRETTY_NAME="Fedora Linux 35"
+VERSION_ID=36
+VERSION_CODENAME="Thirty Six"
+PRETTY_NAME="Fedora Linux 36 (Thirty Six)"
 EOF
 
 # Create custom Anaconda config
