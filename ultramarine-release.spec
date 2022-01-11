@@ -1,23 +1,23 @@
-%if %{fedora} == 34
+%if %{ultramarine} == 34
 %global release_name lazuli
 
-%elif %{fedora} == 35
+%elif %{ultramarine} == 35
 %global release_name phingkan
 
-%elif %{fedora} == 36
+%elif %{ultramarine} == 36
 %global release_name rhode
 
-%elif %{fedora} > 36
+%else
 %global is_rawhide 1
 %global release_name gunjou
 %endif
 
-%global dist_version %{fedora}
+%global dist_version %{version}
 
 Summary:	Ultramarine Linux release files
 Name:     ultramarine-release
 Version:	36
-Release:	1
+Release:	3
 License:	MIT
 Source0:	LICENSE
 Source1:	README.developers
@@ -188,9 +188,9 @@ ID=ultramarine
 VERSION="22.04 Rhode Island"
 VERSION_CODENAME=rhode
 ID_LIKE=fedora
-PLATFORM_ID="platform:um%{fedora}"
+PLATFORM_ID="platform:um%{dist_version}"
 VERSION_ID=%{dist_version}
-PRETTY_NAME="Ultramarine Linux 22.04 Rhode Island (Based on Fedora %{fedora})"
+PRETTY_NAME="Ultramarine Linux 22.04 Rhode Island (Based on Fedora %{dist_version})"
 ANSI_COLOR="0;34"
 LOGO=fedora-logo-icon
 CPE_NAME="cpe:/o:ultramarine:um:%{dist_version}"
@@ -198,9 +198,9 @@ HOME_URL="http://ultramarine-linux.org"
 SUPPORT_URL="https://discord.com/invite/bUuQasHdrF"
 BUG_REPORT_URL="https://youtu.be/HxkmXnRQblE"
 REDHAT_BUGZILLA_PRODUCT="Fedora Linux"
-REDHAT_BUGZILLA_PRODUCT_VERSION=%{fedora}
+REDHAT_BUGZILLA_PRODUCT_VERSION=%{dist_version}
 REDHAT_SUPPORT_PRODUCT="Fedora Linux"
-REDHAT_SUPPORT_PRODUCT_VERSION=%{fedora}
+REDHAT_SUPPORT_PRODUCT_VERSION=%{dist_version}
 PRIVACY_POLICY_URL="https://youtu.be/dQw4w9WgXcQ"
 EOF
 
