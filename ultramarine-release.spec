@@ -1,10 +1,5 @@
-%if %{ultramarine} == 34
-%global release_name lazuli
-
-%elif %{ultramarine} == 35
-%global release_name phingkan
-
-%elif %{ultramarine} == 36
+%if %{ultramarine} == 36
+%global is_rawhide 1
 %global release_name rhode
 
 %else
@@ -12,12 +7,23 @@
 %global release_name gunjou
 %endif
 
-%global dist_version %{version}
+%define dist_version 36
+
+%if %{is_rawhide}
+%define bug_version rawhide
+%define releasever rawhide
+%define doc_version rawhide
+%else
+%define bug_version %{dist_version}
+%define releasever %{dist_version}
+%define doc_version f%{dist_version}
+%endif
+
 
 Summary:	Ultramarine Linux release files
-Name:     ultramarine-release
+Name:		ultramarine-release
 Version:	36
-Release:	3
+Release:	%autorelease -p
 License:	MIT
 Source0:	LICENSE
 Source1:	README.developers
@@ -28,10 +34,12 @@ Source6:	85-display-manager.preset
 Source7:	90-default.preset
 Source8:	99-default-disable.preset
 Source9:	90-default-user.preset
-Source10: 10_ultramarine-default-theme.gschema.override
-Source12: cyber-cutefish-theme.conf
-Source13: 60-ultramarine-presets.conf
-Source14: lightdm-gtk-greeter.conf
+Source10:   10_ultramarine-default-theme.gschema.override
+Source12:   cyber-cutefish-theme.conf
+Source13:   60-ultramarine-presets.conf
+Source14:   lightdm-gtk-greeter.conf
+
+Source19:   distro-template.swidtag
 
 BuildArch: noarch
 
@@ -42,10 +50,10 @@ Provides: ultramarine-release = %{version}-%{release}
 # We need to Provides: and Conflicts: system release here and in each
 # of the generic-release-$VARIANT subpackages to ensure that only one
 # may be installed on the system at a time.
-Conflicts: system-release
-Conflicts: generic-release
-Provides: system-release
-Provides: system-release(%{version})
+Conflicts:  system-release
+Conflicts:  generic-release
+Provides:   system-release = %{version}-%{release}
+Provides:   system-release(%{version}) = %{version}-%{release}
 Conflicts:	ultramarine-release
 Conflicts:	ultramarine-release-identity
 
@@ -82,30 +90,30 @@ Conflicts:	ultramarine-release-notes
 Release files for Ultramarine Linux.
 
 %package basic
-Summary:        Base package for a standard Ultrmarine system
+Summary:		Base package for a standard Ultrmarine system
 
 RemovePathPostfixes: .basic
-Provides:       ultramarine-release-variant = %{version}-%{release}
-Provides:       system-release-variant = %{version}-%{release}
-Provides:       base-module(platform:f%{version})
-Requires:       ultramarine-release-common = %{version}-%{release}
-Provides:       generic-release-variant = %{version}-%{release}
+Provides:		ultramarine-release-variant = %{version}-%{release}
+Provides:		system-release-variant = %{version}-%{release}
+Provides:		base-module(platform:f%{version}) = %{version}-%{release}
+Requires:		ultramarine-release-common = %{version}-%{release}
+Provides:		generic-release-variant = %{version}-%{release}
 # ultramarine-release-common Requires: ultramarine-release-identity, so at least one
 # package must provide it. This Recommends: pulls in
 # ultramarine-release-identity-cinnamon if nothing else is already doing so.
-Recommends:     ultramarine-release-identity-basic
+Recommends:		ultramarine-release-identity-basic
 %description basic
 %{summary}
 
 %package identity-basic
-Summary:        Package providing the basic Ultramarine identity
+Summary:		Package providing the basic Ultramarine identity
 %description identity-basic
 %{summary}
 
 RemovePathPostfixes: .basic
-Provides:       ultramarine-release-identity = %{version}-%{release}
-Conflicts:      ultramarine-release-identity
-Provides: generic-release-identity = %{version}-%{release}
+Provides:		ultramarine-release-identity = %{version}-%{release}
+Conflicts:		ultramarine-release-identity
+Provides:		generic-release-identity = %{version}-%{release}
 
 %description identity-basic
 Provides the necessary files for a Ultramarine installation that is not identifying
@@ -115,19 +123,19 @@ itself as a particular Edition or Spin.
 # Budgie Desktop
 
 %package flagship
-Summary:        Base package for Ultramarine Flagship-specific default configurations
+Summary:		Base package for Ultramarine Flagship-specific default configurations
 
 RemovePathPostfixes: .flagship
-Provides:       ultramarine-release-variant = %{version}-%{release}
-Provides:       base-module(platform:f%{version})
-Provides:       system-release-product
-Requires:       ultramarine-release-common = %{version}-%{release}
-Provides:       generic-release-variant = %{version}-%{release}
-Provides:       system-release-variant = %{version}-%{release}
+Provides:		ultramarine-release-variant = %{version}-%{release}
+Provides:		base-module(platform:f%{version}) = %{version}-%{release}
+Provides:		system-release-product = %{version}-%{release}
+Requires:		ultramarine-release-common = %{version}-%{release}
+Provides:		generic-release-variant = %{version}-%{release}
+Provides:		system-release-variant = %{version}-%{release}
 # ultramarine-release-common Requires: ultramarine-release-identity, so at least one
 # package must provide it. This Recommends: pulls in
 # ultramarine-release-identity-cinnamon if nothing else is already doing so.
-Recommends:     ultramarine-release-identity-flagship
+Recommends:		ultramarine-release-identity-flagship
 %description flagship
 Provides a base package for Ultramarine Flagship configurations.
 
@@ -135,12 +143,12 @@ Provides a base package for Ultramarine Flagship configurations.
 
 
 %package identity-flagship
-Summary:        Package providing the Ultramarine Flagship Identity
+Summary:		Package providing the Ultramarine Flagship Identity
 
 RemovePathPostfixes: .basic
-Provides:       ultramarine-release-identity = %{version}-%{release}
-Conflicts:      ultramarine-release-identity
-Provides: generic-release-identity = %{version}-%{release}
+Provides:		ultramarine-release-identity = %{version}-%{release}
+Conflicts:		ultramarine-release-identity
+Provides:		generic-release-identity = %{version}-%{release}
 
 %description identity-flagship
 Provides the necessary files for a Ultramarine Flagship installation.
@@ -148,18 +156,18 @@ Provides the necessary files for a Ultramarine Flagship installation.
 # Cutefish Desktop
 
 %package cutefish
-Summary:        Base package for Fedora Cutefish-specific default configurations
+Summary:		Base package for Fedora Cutefish-specific default configurations
 
 RemovePathPostfixes: .cutefish
-Provides:       ultramarine-release-variant = %{version}-%{release}
-Provides:       base-module(platform:f%{version})
-Requires:       ultramarine-release-common = %{version}-%{release}
-Provides:       generic-release-variant = %{version}-%{release}
-Provides:       system-release-variant = %{version}-%{release}
+Provides:		ultramarine-release-variant = %{version}-%{release}
+Provides:		base-module(platform:f%{version}) = %{version}-%{release}
+Requires:		ultramarine-release-common = %{version}-%{release}
+Provides:		generic-release-variant = %{version}-%{release}
+Provides:		system-release-variant = %{version}-%{release}
 # ultramarine-release-common Requires: ultramarine-release-identity, so at least one
 # package must provide it. This Recommends: pulls in
 # ultramarine-release-identity-cinnamon if nothing else is already doing so.
-Recommends:     ultramarine-release-identity-basic
+Recommends:		ultramarine-release-identity-basic
 
 %description cutefish
 Provides a base package for Ultramarine Cutefish configurations.
@@ -269,7 +277,7 @@ default_rpm_gpg_keys =
 updates_repositories =
     updates
     updates-modular
-    ultramarine
+    ultramarine-updates
 
 
 EOF
@@ -313,9 +321,9 @@ install -d -m 755 $RPM_BUILD_ROOT%{_rpmconfigdir}/macros.d
 cat >> $RPM_BUILD_ROOT%{_rpmconfigdir}/macros.d/macros.dist << EOF
 # dist macros.
 
-%%fedora                %{dist_version}
-%%dist                %%{?distprefix}.um%{dist_version}%%{?with_bootstrap:~bootstrap}
-%%ultramarine           %{dist_version}
+%%fedora			%{dist_version}
+%%dist			    %%{?distprefix}.um%{dist_version}%%{?with_bootstrap:~bootstrap}
+%%ultramarine		%{dist_version}
 EOF
 
 # Install readme
@@ -336,6 +344,13 @@ install -Dm0644 %{SOURCE6} -t $RPM_BUILD_ROOT%{_prefix}/lib/systemd/system-prese
 install -Dm0644 %{SOURCE7} -t $RPM_BUILD_ROOT%{_prefix}/lib/systemd/system-preset/
 install -Dm0644 %{SOURCE8} -t $RPM_BUILD_ROOT%{_prefix}/lib/systemd/system-preset/
 install -Dm0644 %{SOURCE9} -t $RPM_BUILD_ROOT%{_prefix}/lib/systemd/user-preset/
+
+
+# Create distro-level SWID tag file
+install -d %{buildroot}%{_swidtagdir}
+sed -e "s#\$version#%{bug_version}#g" -e 's/<!--.*-->//;/^$/d' %{SOURCE19} > %{buildroot}%{_swidtagdir}/org.ultramarine.Ultramarine-%{bug_version}.swidtag
+install -d %{buildroot}%{_sysconfdir}/swid/swidtags.d
+ln -s %{_swidtagdir} %{buildroot}%{_sysconfdir}/swid/swidtags.d/ultramarine-linux.org
 
 
 %files common
@@ -360,7 +375,10 @@ install -Dm0644 %{SOURCE9} -t $RPM_BUILD_ROOT%{_prefix}/lib/systemd/user-preset/
 %{_prefix}/lib/systemd/system-preset/85-display-manager.preset
 %{_prefix}/lib/systemd/system-preset/90-default.preset
 %{_prefix}/lib/systemd/system-preset/99-default-disable.preset
-
+%dir %{_swidtagdir}
+%{_swidtagdir}/org.ultramarine.Ultramarine-%{bug_version}.swidtag
+%dir %{_sysconfdir}/swid
+%{_sysconfdir}/swid/swidtags.d
 
 %files
 %{_prefix}/lib/os-release
