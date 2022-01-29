@@ -52,8 +52,8 @@ Provides: ultramarine-release = %{version}-%{release}
 # may be installed on the system at a time.
 Conflicts:  system-release
 Conflicts:  generic-release
-Provides:   system-release = %{version}-%{release}
-Provides:   system-release(%{version}) = %{version}-%{release}
+Provides:   system-release = %{version}
+Provides:   system-release(%{version})
 Conflicts:	ultramarine-release
 Conflicts:	ultramarine-release-identity
 
@@ -272,7 +272,7 @@ hidden_spokes =
 default_source = CLOSEST_MIRROR
 
 default_rpm_gpg_keys =
-    /etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch
+    /etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-\$releasever-\$basearch
 
 updates_repositories =
     updates
