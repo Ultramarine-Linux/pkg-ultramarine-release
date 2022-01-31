@@ -1,13 +1,7 @@
-%if %{ultramarine} == 36
-%global is_rawhide 1
-%global release_name rhode
+%global is_rawhide 0
+%global release_name phingkan
 
-%else
-%global is_rawhide 1
-%global release_name gunjou
-%endif
-
-%define dist_version 36
+%define dist_version 35
 
 %if %{is_rawhide}
 %define bug_version rawhide
@@ -22,8 +16,8 @@
 
 Summary:	Ultramarine Linux release files
 Name:		ultramarine-release
-Version:	36
-Release:	%autorelease -p
+Version:	35
+Release:	5
 License:	MIT
 Source0:	LICENSE
 Source1:	README.developers
@@ -193,12 +187,12 @@ install -d $RPM_BUILD_ROOT/usr/lib/os.release.d/
 cat << EOF >>%{buildroot}%{_prefix}/lib/os-release
 NAME="Ultramarine Linux"
 ID=ultramarine
-VERSION="22.04 Rhode Island"
+VERSION="21.12 Phing Kan"
 VERSION_CODENAME=rhode
 ID_LIKE=fedora
 PLATFORM_ID="platform:um%{dist_version}"
 VERSION_ID=%{dist_version}
-PRETTY_NAME="Ultramarine Linux 22.04 Rhode Island (Based on Fedora %{dist_version})"
+PRETTY_NAME="Ultramarine Linux 21.12 Phing Kan Revision 1 (Based on Fedora %{dist_version})"
 ANSI_COLOR="0;34"
 LOGO=fedora-logo-icon
 CPE_NAME="cpe:/o:ultramarine:um:%{dist_version}"
@@ -216,9 +210,9 @@ EOF
 install -d $RPM_BUILD_ROOT/etc/upstream-release
 cat << EOF >>$RPM_BUILD_ROOT/etc/upstream-release/lsb-release
 ID=Fedora
-VERSION_ID=36
-VERSION_CODENAME="Thirty Six"
-PRETTY_NAME="Fedora Linux 36 (Thirty Six)"
+VERSION_ID=35
+VERSION_CODENAME="Thirty Five"
+PRETTY_NAME="Fedora Linux 35 (Thirty Five)"
 EOF
 
 # Create custom Anaconda config
