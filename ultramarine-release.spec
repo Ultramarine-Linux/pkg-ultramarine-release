@@ -1,11 +1,5 @@
-%if %{ultramarine} == 36
-%global is_rawhide 1
+%global is_rawhide 0
 %global release_name rhode
-
-%else
-%global is_rawhide 1
-%global release_name gunjou
-%endif
 
 %define dist_version 36
 
@@ -52,8 +46,8 @@ Provides: ultramarine-release = %{version}-%{release}
 # may be installed on the system at a time.
 Conflicts:  system-release
 Conflicts:  generic-release
-Provides:   system-release = %{version}-%{release}
-Provides:   system-release(%{version}) = %{version}-%{release}
+Provides:   system-release = %{version}
+Provides:   system-release(%{version})
 Conflicts:	ultramarine-release
 Conflicts:	ultramarine-release-identity
 
@@ -272,7 +266,7 @@ hidden_spokes =
 default_source = CLOSEST_MIRROR
 
 default_rpm_gpg_keys =
-    /etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch
+    /etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-\$releasever-\$basearch
 
 updates_repositories =
     updates
