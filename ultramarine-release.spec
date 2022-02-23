@@ -17,7 +17,7 @@
 Summary:	Ultramarine Linux release files
 Name:		ultramarine-release
 Version:	36
-Release:	%autorelease -p
+Release:	%autorelease -p.1
 License:	MIT
 Source0:	LICENSE
 Source1:	README.developers
@@ -395,4 +395,7 @@ ln -s %{_swidtagdir} %{buildroot}%{_sysconfdir}/swid/swidtags.d/ultramarine-linu
 %{_sysconfdir}/skel/.config/cutefishos/theme.conf
 
 %changelog
+* Tue Feb 22 2022 Ultramarine Release Tracking Service
+- Mass rebuild for release um36
+
 %autochangelog
