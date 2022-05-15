@@ -187,14 +187,14 @@ install -d $RPM_BUILD_ROOT/usr/lib/os.release.d/
 cat << EOF >>%{buildroot}%{_prefix}/lib/os-release
 NAME="Ultramarine Linux"
 ID=ultramarine
-VERSION="22.04 Rhode Island"
+VERSION=%{version}
 VERSION_CODENAME=rhode
 ID_LIKE=fedora
 PLATFORM_ID="platform:um%{dist_version}"
 VERSION_ID=%{dist_version}
-PRETTY_NAME="Ultramarine Linux 22.04 Rhode Island (Based on Fedora %{dist_version})"
+PRETTY_NAME="Ultramarine Linux %{dist_version}"
 ANSI_COLOR="0;34"
-LOGO=fedora-logo-icon
+LOGO=ultramarine
 CPE_NAME="cpe:/o:ultramarine:um:%{dist_version}"
 HOME_URL="http://ultramarine-linux.org"
 SUPPORT_URL="https://discord.com/invite/bUuQasHdrF"
