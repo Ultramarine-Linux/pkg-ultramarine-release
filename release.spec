@@ -199,6 +199,7 @@ CPE_NAME="cpe:/o:ultramarine:um:%{dist_version}"
 HOME_URL="http://ultramarine-linux.org"
 SUPPORT_URL="https://discord.com/invite/bUuQasHdrF"
 BUG_REPORT_URL="https://youtu.be/HxkmXnRQblE"
+DOCUMENTATION_URL="https://wiki.ultramarine-linux.org"
 REDHAT_BUGZILLA_PRODUCT="Fedora Linux"
 REDHAT_BUGZILLA_PRODUCT_VERSION=%{dist_version}
 REDHAT_SUPPORT_PRODUCT="Fedora Linux"
