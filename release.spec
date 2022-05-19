@@ -17,7 +17,7 @@
 Summary:	Ultramarine Linux release files
 Name:		ultramarine-release
 Version:	36
-Release:	%autorelease -p
+Release:	%autorelease
 License:	MIT
 Source0:	LICENSE
 Source1:	README.developers
