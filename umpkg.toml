@@ -1,0 +1,5 @@
+[ultramarine-release]
+spec="ultramarine-release.spec"
+type="mock"
+owner = "cappy"
+git_repo = "https://github.com/ultramarine-linux/pkg-ultramarine-release"
