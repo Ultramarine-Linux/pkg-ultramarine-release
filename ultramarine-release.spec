@@ -1,7 +1,7 @@
 %global is_rawhide 0
-%global release_name rhode
+%global release_name thirtyseven
 
-%define dist_version 36
+%define dist_version 37
 
 %if %{is_rawhide}
 %define bug_version rawhide
@@ -188,7 +188,7 @@ cat << EOF >>%{buildroot}%{_prefix}/lib/os-release
 NAME="Ultramarine Linux"
 ID=ultramarine
 VERSION=%{version}
-VERSION_CODENAME=rhode
+VERSION_CODENAME=thirtyseven
 ID_LIKE=fedora
 PLATFORM_ID="platform:um%{dist_version}"
 VERSION_ID=%{dist_version}
